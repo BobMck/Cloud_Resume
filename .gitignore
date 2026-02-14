@@ -1,0 +1,98 @@
+# ==========================================
+# ☁️ TERRAFORM
+# ==========================================
+# Local directories and provider binaries
+.terraform/
+
+# Terraform state files (CRITICAL: Never commit these as they contain secrets in plain text)
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Terraform variables files (Often contain AWS account IDs or database passwords)
+*.tfvars
+*.tfvars.json
+
+# Override files (Used for local testing only)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# CLI configuration files
+.terraformrc
+terraform.rc
+
+# Note: .terraform.lock.hcl IS NOT ignored. 
+# It is best practice to commit the lock file to ensure provider versions match.
+
+# ==========================================
+# 🔐 SECRETS & AWS
+# ==========================================
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# AWS local config (just in case it's accidentally dragged in)
+.aws/
+credentials.json
+*.pem
+*.rsa
+*.pub
+
+# ==========================================
+# 🟢 NODE.JS / FRONTEND (React/Vue/Vanilla)
+# ==========================================
+# Dependency directories
+node_modules/
+
+# Build artifacts and output directories
+build/
+dist/
+out/
+.next/
+.nuxt/
+
+# NPM/Yarn/PNPM debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ==========================================
+# 🐍 PYTHON / BACKEND (If using Python API)
+# ==========================================
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+venv/
+.venv/
+env/
+.env/
+
+# ==========================================
+# 🏗️ JENKINS & CI/CD
+# ==========================================
+# Local Jenkins test directories/artifacts
+.jenkins/
+builds/
+workspace/
+
+# ==========================================
+# 💻 OS & IDE (VS Code / Mac / Windows)
+# ==========================================
+# Mac / Windows system files
+.DS_Store
+Thumbs.db
+
+# IDE specific folders
+.vscode/
+.idea/
+*.swp
