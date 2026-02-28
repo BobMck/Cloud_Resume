@@ -5,6 +5,7 @@ module "networking" {
   source   = "../../modules/networking"
   vpc_cidr = var.prod_vpc_cidr
   private_subnet_cidr_2a = var.private_subnet_cidr_2a
+  private_subnet_cidr_2b = var.private_subnet_cidr_2b
 }
 
 #############################
