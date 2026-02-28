@@ -21,3 +21,12 @@ resource "aws_subnet" "private_2a" {
     Name = "private_2a"
   }
 }
+resource "aws_subnet" "private_2b" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.private_subnet_cidr_2b
+  availability_zone = "eu-west-2b"
+
+  tags = {
+    Name = "private_2b"
+  }
+}
