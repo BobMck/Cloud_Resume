@@ -10,6 +10,18 @@ resource "aws_vpc" "main" {
 }
 
 #############################
+# Internet Gateway
+#############################
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "cloud-resume-igw"
+  }
+}
+
+
+#############################
 # Private Subnets
 #############################
 resource "aws_subnet" "private_2a" {
