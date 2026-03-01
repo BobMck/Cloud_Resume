@@ -12,63 +12,71 @@ resource "aws_vpc" "main" {
 #############################
 # Private Subnets
 #############################
-resource "aws_subnet" "private_2a" {
+resource "aws_subnet" "private_subnets" {
+  count = 3
   vpc_id            = aws_vpc.main.id
-  cidr_block        = var.private_subnet_cidr_2a
-  availability_zone = "eu-west-2a"
+  cidr_block        = var.private_subnet_cidrs[count.index]
+  availability_zone = var.az[count.index]
 
   tags = {
-    Name = "private_2a"
-  }
-}
-resource "aws_subnet" "private_2b" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = var.private_subnet_cidr_2b
-  availability_zone = "eu-west-2b"
-
-  tags = {
-    Name = "private_2b"
-  }
-}
-
-resource "aws_subnet" "private_2c" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = var.private_subnet_cidr_2c
-  availability_zone = "eu-west-2c"
-
-  tags = {
-    Name = "private_2c"
+    Name = "private_${count.index + 1}"
   }
 }
 
 #############################
 # Public Subnets
 #############################
-resource "aws_subnet" "public_2a" {
+resource "aws_subnet" "public_subnets" {
+  count = 3
   vpc_id            = aws_vpc.main.id
-  cidr_block        = var.public_subnet_cidr_2a
-  availability_zone = "eu-west-2a"
+  cidr_block        = var.public_subnet_cidrs[count.index]
+  availability_zone = var.az[count.index]
 
   tags = {
-    Name = "public_2a"
-  }
-}
-resource "aws_subnet" "public_2b" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = var.public_subnet_cidr_2b
-  availability_zone = "eu-west-2b"
-
-  tags = {
-    Name = "public_2b"
+    Name = "public_${count.index + 1}"
   }
 }
 
-resource "aws_subnet" "public_2c" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = var.public_subnet_cidr_2c
-  availability_zone = "eu-west-2c"
+#############################
+# Private Route Table
+#############################
+resource "aws_route_table" "private_Route_Table" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block = "10.0.1.0/24"
+    #gateway_id = aws_internet_gateway.main.id
+  }
 
   tags = {
-    Name = "public_2c"
+      Name = "private-Route-Table"
+    }
   }
+
+resource "aws_route_table_association" "Private_Route_Table_Association" {
+  count          = length(aws_subnet.private_subnets)
+  route_table_id = aws_route_table.private_Route_Table.id
+  subnet_id      = aws_subnet.private_subnets[count.index].id
+}
+
+#############################
+# Public Route Table
+#############################
+resource "aws_route_table" "public_Route_Table" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    #gateway_id = aws_internet_gateway.main.id
+  }
+
+  tags = {
+    Name = "Public-Route-Table"
+  }
+}
+
+resource "aws_route_table_association" "Public_Route_Table_Association" {
+  count          = length(aws_subnet.public_subnets)
+  route_table_id = aws_route_table.public_Route_Table.id
+  subnet_id      = aws_subnet.public_subnets[count.index].id
 }
