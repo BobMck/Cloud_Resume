@@ -42,3 +42,13 @@ variable "instance_type" {
   type        = string
 }
 
+#############################
+# Load Balancing
+#############################
+# variable "public_subnet-ids" {
+#   type = list(string)
+# }
+
+# variable "lb_sg_id" {
+#   type = list(string)
+# }
